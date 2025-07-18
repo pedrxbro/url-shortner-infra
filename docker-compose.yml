@@ -1,16 +1,11 @@
 version: '3.8'
 
-networks:
-  urlshortnet:
-
 services:
   mongodb:
     image: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=123
-    networks:
-      - urlshortnet
 
   backend:
     image: pedrxbro/url-shortner-backend
@@ -18,15 +13,11 @@ services:
       - SPRING_DATA_MONGODB_URI=mongodb://admin:123@mongodb:27017/admin
     depends_on:
       - mongodb
-    networks:
-      - urlshortnet
 
   frontend:
     image: pedrxbro/url-shortner-frontend
     depends_on:
       - backend
-    networks:
-      - urlshortnet
 
   nginx:
     build: ./nginx
@@ -35,5 +26,3 @@ services:
     depends_on:
       - frontend
       - backend
-    networks:
-      - urlshortnet
